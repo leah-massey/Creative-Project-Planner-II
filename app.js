@@ -15,8 +15,24 @@ app.get("/api/v1/projects", (req, res) => {
 });
 
 app.post("/api/v1/projects", (req, res) => {
-  console.log(req.body);
-  res.send("done"); // we always need to send something back
+  const newId = projects[projects.length - 1].id + 1;
+  console.log(projects.length);
+  console.log(newId);
+  const newProject = Object.assign({ id: newId }, req.body); //Object.assign merges the two given objects
+
+  projects.push(newProject);
+  fs.writeFile(
+    `${__dirname}/dev-data/data/projects.json`,
+    JSON.stringify(projects),
+    (err) => {
+      res.status(201).json({
+        status: "successs",
+        data: {
+          project: newProject,
+        },
+      });
+    }
+  );
 });
 
 const port = 3002;
