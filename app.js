@@ -8,15 +8,13 @@ const projects = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/projects.json`)
 );
 
-//. get all projects
-app.get("/api/v1/projects", (req, res) => {
+const getAllProjects = (req, res) => {
   res
     .status(200)
     .json({ status: "success", results: projects.length, data: { projects } });
-});
+};
 
-//. get individual project
-app.get("/api/v1/projects/:id", (req, res) => {
+const getProject = (req, res) => {
   const id = req.params.id * 1;
 
   if (id > projects.length) {
@@ -25,10 +23,9 @@ app.get("/api/v1/projects/:id", (req, res) => {
 
   const project = projects.find((el) => el.id === id);
   res.status(200).json({ status: "success", data: { project } });
-});
+};
 
-// create a project
-app.post("/api/v1/projects", (req, res) => {
+const addProject = (req, res) => {
   const newId = projects[projects.length - 1].id + 1;
   console.log(projects.length);
   console.log(newId);
@@ -47,10 +44,9 @@ app.post("/api/v1/projects", (req, res) => {
       });
     }
   );
-});
+};
 
-// update a project
-app.patch("/api/v1/projects/:id", (req, res) => {
+const updateProject = (req, res) => {
   if (req.params.id * 1 > projects.length) {
     return res.status(404).json({ status: "fail", message: "invalid id" });
   }
@@ -59,10 +55,9 @@ app.patch("/api/v1/projects/:id", (req, res) => {
     status: "success",
     data: { project: "< this is a placeholder for the updated project. >" },
   });
-});
+};
 
-// delete a project
-app.delete("/api/v1/projects/:id", (req, res) => {
+const deleteProject = (req, res) => {
   if (req.params.id * 1 > projects.length) {
     return res.status(404).json({ status: "fail", message: "invalid id" });
   }
@@ -71,7 +66,14 @@ app.delete("/api/v1/projects/:id", (req, res) => {
     status: "success",
     data: null,
   });
-});
+};
+
+app.route("/api/v1/projects").get(getAllProjects).post(addProject);
+app
+  .route("/api/v1/projects/:id")
+  .get(getProject)
+  .patch(updateProject)
+  .delete(deleteProject);
 
 const port = 3002;
 app.listen(port, () => {
