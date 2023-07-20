@@ -14,6 +14,12 @@ app.get("/api/v1/projects", (req, res) => {
     .json({ status: "success", results: projects.length, data: { projects } });
 });
 
+app.get("/api/v1/projects/:id", (req, res) => {
+  const id = req.params.id * 1;
+  const project = projects.find((el) => el.id === id);
+  res.status(200).json({ status: "success", data: { project } });
+});
+
 app.post("/api/v1/projects", (req, res) => {
   const newId = projects[projects.length - 1].id + 1;
   console.log(projects.length);
