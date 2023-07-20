@@ -4,6 +4,11 @@ const express = require("express");
 const app = express();
 app.use(express.json()); // express.json() is the middleware - post request doesn't work without this!
 
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next(); // next must always be at the end of your middleware.
+});
+
 const projects = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/projects.json`)
 );
@@ -11,7 +16,12 @@ const projects = JSON.parse(
 const getAllProjects = (req, res) => {
   res
     .status(200)
-    .json({ status: "success", results: projects.length, data: { projects } });
+    .json({
+      status: "success",
+      requestedAt: req.requestTime,
+      results: projects.length,
+      data: { projects },
+    });
 };
 
 const getProject = (req, res) => {
