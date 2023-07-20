@@ -8,12 +8,14 @@ const projects = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/projects.json`)
 );
 
+//. get all projects
 app.get("/api/v1/projects", (req, res) => {
   res
     .status(200)
     .json({ status: "success", results: projects.length, data: { projects } });
 });
 
+//. get individual project
 app.get("/api/v1/projects/:id", (req, res) => {
   const id = req.params.id * 1;
 
@@ -25,6 +27,7 @@ app.get("/api/v1/projects/:id", (req, res) => {
   res.status(200).json({ status: "success", data: { project } });
 });
 
+// create a project
 app.post("/api/v1/projects", (req, res) => {
   const newId = projects[projects.length - 1].id + 1;
   console.log(projects.length);
@@ -44,6 +47,18 @@ app.post("/api/v1/projects", (req, res) => {
       });
     }
   );
+});
+
+// update a project
+app.patch("/api/v1/projects/:id", (req, res) => {
+  if (req.params.id * 1 > projects.length) {
+    return res.status(404).json({ status: "fail", message: "invalid id" });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: { project: "< this is a placeholder for the updated project. >" },
+  });
 });
 
 const port = 3002;
