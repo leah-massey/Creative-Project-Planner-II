@@ -117,19 +117,23 @@ const deleteUser = (req, res) => {
 };
 
 //* ROUTES
-app.route("/api/v1/projects").get(getAllProjects).post(addProject);
-app
-  .route("/api/v1/projects/:id")
+
+const projectRouter = express.Router(); // middleware
+const userRouter = express.Router(); // middleware
+
+projectRouter.route("/").get(getAllProjects).post(addProject);
+
+projectRouter
+  .route("/:id")
   .get(getProject)
   .patch(updateProject)
   .delete(deleteProject);
 
-app.route("/api/v1/users").get(getAllUsers).post(createUser);
-app
-  .route("/api/v1/users/:id")
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+userRouter.route("/").get(getAllUsers).post(createUser);
+userRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/users", userRouter);
 
 const port = 3002;
 app.listen(port, () => {
