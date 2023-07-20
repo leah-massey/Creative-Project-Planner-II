@@ -16,6 +16,11 @@ app.get("/api/v1/projects", (req, res) => {
 
 app.get("/api/v1/projects/:id", (req, res) => {
   const id = req.params.id * 1;
+
+  if (id > projects.length) {
+    return res.status(404).json({ status: "fail", message: "invalid id" });
+  }
+
   const project = projects.find((el) => el.id === id);
   res.status(200).json({ status: "success", data: { project } });
 });
