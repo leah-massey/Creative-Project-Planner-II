@@ -61,6 +61,18 @@ app.patch("/api/v1/projects/:id", (req, res) => {
   });
 });
 
+// delete a project
+app.delete("/api/v1/projects/:id", (req, res) => {
+  if (req.params.id * 1 > projects.length) {
+    return res.status(404).json({ status: "fail", message: "invalid id" });
+  }
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
+
 const port = 3002;
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
