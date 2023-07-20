@@ -1,7 +1,11 @@
 const fs = require("fs");
 const express = require("express");
+const morgan = require("morgan");
 
 const app = express();
+
+//* MIDDLEWARES
+app.use(morgan("dev"));
 app.use(express.json()); // express.json() is the middleware - post request doesn't work without this!
 
 app.use((req, res, next) => {
@@ -13,15 +17,14 @@ const projects = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/projects.json`)
 );
 
+//* ROUTE HANDLERS
 const getAllProjects = (req, res) => {
-  res
-    .status(200)
-    .json({
-      status: "success",
-      requestedAt: req.requestTime,
-      results: projects.length,
-      data: { projects },
-    });
+  res.status(200).json({
+    status: "success",
+    requestedAt: req.requestTime,
+    results: projects.length,
+    data: { projects },
+  });
 };
 
 const getProject = (req, res) => {
@@ -78,12 +81,55 @@ const deleteProject = (req, res) => {
   });
 };
 
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "response not yet set up",
+  });
+};
+
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "response not yet set up",
+  });
+};
+
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "response not yet set up",
+  });
+};
+
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "response not yet set up",
+  });
+};
+
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: "error",
+    message: "response not yet set up",
+  });
+};
+
+//* ROUTES
 app.route("/api/v1/projects").get(getAllProjects).post(addProject);
 app
   .route("/api/v1/projects/:id")
   .get(getProject)
   .patch(updateProject)
   .delete(deleteProject);
+
+app.route("/api/v1/users").get(getAllUsers).post(createUser);
+app
+  .route("/api/v1/users/:id")
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 const port = 3002;
 app.listen(port, () => {
