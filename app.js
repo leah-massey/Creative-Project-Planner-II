@@ -7,7 +7,10 @@ const projectRouter = require("./routes/projectRoutes");
 const app = express();
 
 //* MIDDLEWARES
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev")); // only run this middleware if in development mode.
+}
+
 app.use(express.json()); // express.json() is the middleware - post request doesn't work without this!
 app.use(express.static(`${__dirname}/projects`));
 
