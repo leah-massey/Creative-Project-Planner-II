@@ -18,7 +18,4 @@ app.use((req, res, next) => {
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/users", userRouter);
 
-const port = 3002;
-app.listen(port, () => {
-  console.log(`app running on port ${port}`);
-});
+module.exports = app;
