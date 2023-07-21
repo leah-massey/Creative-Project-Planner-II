@@ -9,6 +9,7 @@ const app = express();
 //* MIDDLEWARES
 app.use(morgan("dev"));
 app.use(express.json()); // express.json() is the middleware - post request doesn't work without this!
+app.use(express.static(`${__dirname}/projects`));
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
