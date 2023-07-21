@@ -1,17 +1,19 @@
 const express = require("express");
-const projectRouter = require("../controllers/projectController");
+const projectController = require("../controllers/projectController");
 
 const router = express.Router(); // middleware
 
+router.param("id", projectController.checkID);
+
 router
   .route("/")
-  .get(projectRouter.getAllProjects)
-  .post(projectRouter.addProject);
+  .get(projectController.getAllProjects)
+  .post(projectController.addProject);
 
 router
   .route("/:id")
-  .get(projectRouter.getProject)
-  .patch(projectRouter.updateProject)
-  .delete(projectRouter.deleteProject);
+  .get(projectController.getProject)
+  .patch(projectController.updateProject)
+  .delete(projectController.deleteProject);
 
 module.exports = router;

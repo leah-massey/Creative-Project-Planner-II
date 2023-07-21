@@ -4,6 +4,14 @@ const projects = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/projects.json`)
 );
 
+exports.checkID = (req, res, next, val) => {
+  console.log(`tour id is: ${val}`);
+  if (req.params.id * 1 > projects.length) {
+    return res.status(404).json({ status: "fail", message: "invalid id" });
+  }
+  next();
+};
+
 exports.getAllProjects = (req, res) => {
   res.status(200).json({
     status: "success",
@@ -15,10 +23,6 @@ exports.getAllProjects = (req, res) => {
 
 exports.getProject = (req, res) => {
   const id = req.params.id * 1;
-
-  if (id > projects.length) {
-    return res.status(404).json({ status: "fail", message: "invalid id" });
-  }
 
   const project = projects.find((el) => el.id === id);
   res.status(200).json({ status: "success", data: { project } });
@@ -46,10 +50,6 @@ exports.addProject = (req, res) => {
 };
 
 exports.updateProject = (req, res) => {
-  if (req.params.id * 1 > projects.length) {
-    return res.status(404).json({ status: "fail", message: "invalid id" });
-  }
-
   res.status(200).json({
     status: "success",
     data: { project: "< this is a placeholder for the updated project. >" },
@@ -57,10 +57,6 @@ exports.updateProject = (req, res) => {
 };
 
 exports.deleteProject = (req, res) => {
-  if (req.params.id * 1 > projects.length) {
-    return res.status(404).json({ status: "fail", message: "invalid id" });
-  }
-
   res.status(204).json({
     status: "success",
     data: null,
