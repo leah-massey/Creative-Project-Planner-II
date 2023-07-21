@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+
 const userRouter = require("./routes/userRoutes");
 const projectRouter = require("./routes/projectRoutes");
 
@@ -13,10 +14,6 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next(); // next must always be at the end of your middleware.
 });
-
-//* ROUTE HANDLERS
-
-//* ROUTES
 
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/users", userRouter);
