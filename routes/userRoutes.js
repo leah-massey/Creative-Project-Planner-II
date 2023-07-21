@@ -1,43 +1,16 @@
 const express = require("express");
 
-const getAllUsers = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "response not yet set up",
-  });
-};
-
-const createUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "response not yet set up",
-  });
-};
-
-const getUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "response not yet set up",
-  });
-};
-
-const updateUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "response not yet set up",
-  });
-};
-
-const deleteUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "response not yet set up",
-  });
-};
-
 const router = express.Router(); // middleware
+const userController = require("../controllers/userController");
 
-router.route("/").get(getAllUsers).post(createUser);
-router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+router
+  .route("/")
+  .get(userController.getAllUsers)
+  .post(userController.createUser);
+router
+  .route("/:id")
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 module.exports = router;
