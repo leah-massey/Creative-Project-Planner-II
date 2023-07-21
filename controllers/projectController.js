@@ -12,6 +12,17 @@ exports.checkID = (req, res, next, val) => {
   next();
 };
 
+exports.checkBody = (req, res, next) => {
+  console.log(`checking body`);
+  if (!req.body.name || !req.body.category) {
+    return res.status(404).json({
+      status: "fail",
+      message: "project must have a name and category",
+    });
+  }
+  next();
+};
+
 exports.getAllProjects = (req, res) => {
   res.status(200).json({
     status: "success",

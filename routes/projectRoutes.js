@@ -8,7 +8,7 @@ router.param("id", projectController.checkID);
 router
   .route("/")
   .get(projectController.getAllProjects)
-  .post(projectController.addProject);
+  .post(projectController.checkBody, projectController.addProject);
 
 router
   .route("/:id")
