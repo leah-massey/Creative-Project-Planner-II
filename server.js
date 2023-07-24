@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
@@ -16,28 +15,21 @@ mongoose
   })
   .then(() => console.log("DB connection successful!"));
 
-const projectSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "A project must have a name"],
-    unique: true,
-  },
-  category: {
-    type: String,
-    required: [true, "A project must have a category"],
-  },
-  description: {
-    type: String,
-    default: "You currently don't have any further notes on this project.",
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-});
+//* this code was just for testing
+// const testProject = new Project({
+//   name: "Marble some paper",
+//   category: "art",
+//   description: "Use traditional methods to make designs/",
+// });
 
-const Project = mongoose.model("Project", projectSchema);
-// console.log(process.env);
+// testProject
+//   .save()
+//   .then((doc) => {
+//     console.log(doc);
+//   })
+//   .catch((err) => {
+//     console.log("ERROR !! Yikes!!", err);
+//   });
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {

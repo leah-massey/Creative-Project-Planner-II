@@ -1,8 +1,10 @@
 const fs = require("fs");
+const Project = require("../models/projectModel");
 
-const projects = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/projects.json`)
-);
+//👇🏻 how we were originally importing the data from a json file.
+// const projects = JSON.parse(
+//   fs.readFileSync(`${__dirname}/../dev-data/data/projects.json`)
+// );
 
 exports.checkID = (req, res, next, val) => {
   console.log(`tour id is: ${val}`);
@@ -27,37 +29,25 @@ exports.getAllProjects = (req, res) => {
   res.status(200).json({
     status: "success",
     requestedAt: req.requestTime,
-    results: projects.length,
-    data: { projects },
+    // results: projects.length,
+    // data: { projects },
   });
 };
 
 exports.getProject = (req, res) => {
   const id = req.params.id * 1;
 
-  const project = projects.find((el) => el.id === id);
-  res.status(200).json({ status: "success", data: { project } });
+  // const project = projects.find((el) => el.id === id);
+  // res.status(200).json({ status: "success", data: { project } });
 };
 
 exports.addProject = (req, res) => {
-  const newId = projects[projects.length - 1].id + 1;
-  console.log(projects.length);
-  console.log(newId);
-  const newProject = Object.assign({ id: newId }, req.body); //Object.assign merges the two given objects
-
-  projects.push(newProject);
-  fs.writeFile(
-    `${__dirname}/dev-data/data/projects.json`,
-    JSON.stringify(projects),
-    (err) => {
-      res.status(201).json({
-        status: "successs",
-        data: {
-          project: newProject,
-        },
-      });
-    }
-  );
+  res.status(201).json({
+    status: "successs",
+    // data: {
+    //   project: newProject,
+    // },
+  });
 };
 
 exports.updateProject = (req, res) => {
