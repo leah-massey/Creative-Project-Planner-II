@@ -3,12 +3,13 @@ const projectController = require("../controllers/projectController");
 
 const router = express.Router(); // middleware
 
-router.param("id", projectController.checkID);
+// we no longer need this now we are using MongoDB 👇🏻
+// router.param("id", projectController.checkID);
 
 router
   .route("/")
   .get(projectController.getAllProjects)
-  .post(projectController.checkBody, projectController.addProject);
+  .post(projectController.addProject);
 
 router
   .route("/:id")
